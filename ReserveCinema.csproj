@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="ReserveCinema.Application\ReserveCinema.Application.csproj" />
+    <ProjectReference Include="ReserveCinema.Infrastructure\ReserveCinema.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

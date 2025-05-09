@@ -10,7 +10,7 @@ using ReserveCinema.Domain.Interfaces;
 
 namespace ReserveCinema.Application.UseCases;
 
-internal class ReservationService : IReservationService
+public class ReservationService : IReservationService
 {
     private readonly IReservationRepository _reservationRepo;
     private readonly ISeatRepository _seatRepo;
