@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ReserveCinema.Application.DTOs;
 using ReserveCinema.Application.Interfaces;
+using ReserveCinema.Domain.Interfaces;
 
 namespace ReserveCinema.Controllers;
 
@@ -10,10 +11,12 @@ namespace ReserveCinema.Controllers;
 public class ReservationController : ControllerBase
 {
     private readonly IReservationService _reservationService;
+    private readonly ISeatRepository _seatRepository;
 
-    public ReservationController(IReservationService reservationService)
+    public ReservationController(IReservationService reservationService, ISeatRepository seatRepository)
     {
         _reservationService = reservationService;
+        _seatRepository = seatRepository;
     }
 
     [HttpPost]
@@ -33,7 +36,28 @@ public class ReservationController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
-    
+
         return Ok(new { message = $"Aquí se retornaría la reserva con ID {id}" });
+    }
+    [HttpGet("seats/{showId}")]
+    public async Task<IActionResult> GetAvailableSeats(int showId)
+    {
+        try
+        {
+            var seats = await _seatRepository.GetAvailableSeatsAsync(showId);
+            var response = seats.Select(s => new
+            {
+                s.Id,
+                s.Row,
+                s.Column,
+                s.IsAvailable
+            });
+
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
     }
 }
