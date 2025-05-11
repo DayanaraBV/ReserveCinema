@@ -14,4 +14,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ReserveCinema.Application\ReserveCinema.Application.csproj" />
+    <ProjectReference Include="..\ReserveCinema.Infrastructure\ReserveCinema.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
