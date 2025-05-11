@@ -10,4 +10,5 @@ namespace ReserveCinema.Application.Interfaces;
 public interface IReservationService
 {
     Task<int> CreateReservationAsync(CreateReservationDto dto);
+    Task<object?> GetByIdAsync(int id);
 }

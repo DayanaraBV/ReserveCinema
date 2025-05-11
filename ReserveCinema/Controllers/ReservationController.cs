@@ -60,4 +60,21 @@ public class ReservationController : ControllerBase
             return BadRequest(new { error = ex.Message });
         }
     }
+    [HttpGet("details/{id}")]
+    public async Task<IActionResult> GetReservationDetails(int id)
+    {
+        try
+        {
+            var reservation = await _reservationService.GetByIdAsync(id);
+            if (reservation == null)
+                return NotFound();
+
+            return Ok(reservation);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
+    }
 }
+

@@ -48,4 +48,25 @@ public class ReservationService : IReservationService
 
         return reservation.Id;
     }
+    public async Task<object?> GetByIdAsync(int id)
+    {
+        var reservation = await _reservationRepo.GetByIdAsync(id);
+        if (reservation == null) return null;
+
+        return new
+        {
+            reservation.Id,
+            reservation.CustomerName,
+            Show = new
+            {
+                reservation.Show.MovieTitle,
+                reservation.Show.StartTime
+            },
+            Seats = reservation.ReservationSeats.Select(rs => new
+            {
+                rs.Seat.Row,
+                rs.Seat.Column
+            })
+        };
+    }
 }
