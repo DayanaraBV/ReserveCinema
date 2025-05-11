@@ -2,6 +2,8 @@ using ReserveCinema.Infrastructure.Persistence;
 using ReserveCinema.Domain.Interfaces;
 using ReserveCinema.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
+using ReserveCinema.Application.Interfaces;
+using ReserveCinema.Application.UseCases;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +23,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<IShowRepository, ShowRepository>();
 builder.Services.AddScoped<ISeatRepository, SeatRepository>();
 builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
+
+
+builder.Services.AddScoped<IReservationService, ReservationService>();
 
 var app = builder.Build();
 
