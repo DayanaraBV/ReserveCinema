@@ -25,7 +25,7 @@ public class ReservationController : ControllerBase
         try
         {
             var reservationId = await _reservationService.CreateReservationAsync(dto);
-            return CreatedAtAction(nameof(GetById), new { id = reservationId }, new { id = reservationId });
+            return CreatedAtAction(nameof(GetReservationDetails), new { id = reservationId }, new { id = reservationId });
         }
         catch (Exception ex)
         {
@@ -33,12 +33,6 @@ public class ReservationController : ControllerBase
         }
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(int id)
-    {
-
-        return Ok(new { message = $"Aquí se retornaría la reserva con ID {id}" });
-    }
     [HttpGet("seats/{showId}")]
     public async Task<IActionResult> GetAvailableSeats(int showId)
     {
