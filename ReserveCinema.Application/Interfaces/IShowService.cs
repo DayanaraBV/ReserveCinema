@@ -11,4 +11,5 @@ public interface IShowService
 {
     Task<int> CreateAsync(CreateShowDto dto);
     Task DeleteAsync(int id);
+    Task UpdateAsync(int id, UpdateShowDto dto);
 }

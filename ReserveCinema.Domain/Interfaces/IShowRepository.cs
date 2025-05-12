@@ -13,4 +13,5 @@ public interface IShowRepository
     Task<IEnumerable<Show>> GetAllAsync();
     Task AddAsync(Show show);
     Task DeleteAsync(int id);
+    Task UpdateAsync(int id, string movieTitle, DateTime startTime);
 }

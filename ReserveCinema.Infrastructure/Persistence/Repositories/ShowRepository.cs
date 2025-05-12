@@ -44,4 +44,14 @@ public class ShowRepository : IShowRepository
         _context.Shows.Remove(show);
         await _context.SaveChangesAsync();
     }
+    public async Task UpdateAsync(int id, string movieTitle, DateTime startTime)
+    {
+        var show = await _context.Shows.FindAsync(id);
+        if (show == null) return;
+
+        show.MovieTitle = movieTitle;
+        show.StartTime = startTime;
+
+        await _context.SaveChangesAsync();
+    }
 }

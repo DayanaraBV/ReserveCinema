@@ -67,4 +67,18 @@ public class ShowController : ControllerBase
             return BadRequest(new { error = ex.Message });
         }
     }
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, [FromBody] UpdateShowDto dto)
+    {
+        try
+        {
+            await _showService.UpdateAsync(id, dto);
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
+    }
+
 }

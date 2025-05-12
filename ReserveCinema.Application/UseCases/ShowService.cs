@@ -40,4 +40,14 @@ public class ShowService : IShowService
     {
         await _repository.DeleteAsync(id);
     }
+    public async Task UpdateAsync(int id, UpdateShowDto dto)
+    {
+        if (string.IsNullOrWhiteSpace(dto.MovieTitle))
+            throw new Exception("El título de la película es obligatorio.");
+
+        if (dto.StartTime <= DateTime.UtcNow)
+            throw new Exception("La hora debe ser futura.");
+
+        await _repository.UpdateAsync(id, dto.MovieTitle, DateTime.SpecifyKind(dto.StartTime, DateTimeKind.Utc));
+    }
 }
