@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ReserveCinema.Domain.Interfaces;
+using ReserveCinema.Application.DTOs;
+using ReserveCinema.Application.Interfaces;
 
 namespace ReserveCinema.Controllers;
 
@@ -8,10 +10,12 @@ namespace ReserveCinema.Controllers;
 public class ShowController : ControllerBase
 {
     private readonly IShowRepository _showRepository;
+    private readonly IShowService _showService;
 
-    public ShowController(IShowRepository showRepository)
+    public ShowController(IShowRepository showRepository, IShowService showService)
     {
         _showRepository = showRepository;
+        _showService = showService;
     }
 
     [HttpGet]
@@ -32,6 +36,22 @@ public class ShowController : ControllerBase
         catch (Exception ex)
         {
             return BadRequest(new { error = ex.Message });
+        }
+    }
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] CreateShowDto dto)
+    {
+        try
+        {
+            var id = await _showService.CreateAsync(dto);
+            return CreatedAtAction(nameof(GetAll), new { id }, new { id });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new
+            {
+                error = ex.InnerException?.Message ?? ex.Message
+            });
         }
     }
 }
