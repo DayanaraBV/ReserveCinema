@@ -12,4 +12,5 @@ public interface IShowRepository
     Task<Show?> GetByIdAsync(int id);
     Task<IEnumerable<Show>> GetAllAsync();
     Task AddAsync(Show show);
+    Task DeleteAsync(int id);
 }

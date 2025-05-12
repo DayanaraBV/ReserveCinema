@@ -36,5 +36,12 @@ public class ShowRepository : IShowRepository
             .Include(s => s.Reservations)
             .FirstOrDefaultAsync(s => s.Id == id);
     }
+    public async Task DeleteAsync(int id)
+    {
+        var show = await _context.Shows.FindAsync(id);
+        if (show == null) return;
 
+        _context.Shows.Remove(show);
+        await _context.SaveChangesAsync();
+    }
 }

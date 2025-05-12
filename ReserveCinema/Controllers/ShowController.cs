@@ -54,4 +54,17 @@ public class ShowController : ControllerBase
             });
         }
     }
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        try
+        {
+            await _showService.DeleteAsync(id);
+            return NoContent(); // 204
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
+    }
 }

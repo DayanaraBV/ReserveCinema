@@ -36,4 +36,8 @@ public class ShowService : IShowService
         await _repository.AddAsync(show);
         return show.Id;
     }
+    public async Task DeleteAsync(int id)
+    {
+        await _repository.DeleteAsync(id);
+    }
 }

@@ -10,4 +10,5 @@ namespace ReserveCinema.Application.Interfaces;
 public interface IShowService
 {
     Task<int> CreateAsync(CreateShowDto dto);
+    Task DeleteAsync(int id);
 }
