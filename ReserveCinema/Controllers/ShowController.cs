@@ -80,5 +80,21 @@ public class ShowController : ControllerBase
             return BadRequest(new { error = ex.Message });
         }
     }
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id)
+    {
+        try
+        {
+            var show = await _showService.GetByIdAsync(id);
+            if (show == null)
+                return NotFound();
+
+            return Ok(show);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
+    }
 
 }

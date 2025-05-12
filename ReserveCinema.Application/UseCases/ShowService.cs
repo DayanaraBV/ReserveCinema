@@ -50,4 +50,16 @@ public class ShowService : IShowService
 
         await _repository.UpdateAsync(id, dto.MovieTitle, DateTime.SpecifyKind(dto.StartTime, DateTimeKind.Utc));
     }
+    public async Task<object?> GetByIdAsync(int id)
+    {
+        var show = await _repository.GetByIdAsync(id);
+        if (show == null) return null;
+
+        return new
+        {
+            show.Id,
+            show.MovieTitle,
+            show.StartTime
+        };
+    }
 }
