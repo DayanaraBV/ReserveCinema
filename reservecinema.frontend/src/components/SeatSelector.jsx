@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getAvailableSeats } from '../services/api';
 import { useNavigate } from 'react-router-dom';
+import { createReservation } from '../services/api';
 
 const SeatSelector = ({ showId }) => {
   const [seats, setSeats] = useState([]);
