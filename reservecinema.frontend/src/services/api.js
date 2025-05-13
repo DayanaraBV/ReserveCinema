@@ -6,3 +6,8 @@ export const getShows = async () => {
   const response = await axios.get(`${API_BASE_URL}/show`);
   return response.data;
 };
+
+export const getAvailableSeats = async (showId) => {
+  const response = await axios.get(`${API_BASE_URL}/reservation/seats/${showId}`);
+  return response.data;
+};
