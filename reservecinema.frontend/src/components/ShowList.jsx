@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { getShows } from '../services/api';
-import { FilmIcon } from '@heroicons/react/24/outline'
 
 const ShowList = ({ onSelectShow }) => {
   const [shows, setShows] = useState([]);
@@ -19,17 +18,29 @@ const ShowList = ({ onSelectShow }) => {
   }, []);
 
   return (
-    <div>
-      <h2 className="flex items-center text-red-500 text-2xl font-bold gap-2 mb-4">Funciones disponibles <FilmIcon className="w-7 h-7 relative top-1"/></h2>
-      <ul>
+    <div className="bg-[#1e293b] rounded-lg p-6 shadow-lg mb-6">
+      <h2 className="text-xl font-bold text-yellow-200 mb-4">🎬 Funciones disponibles</h2>
+      <div className="space-y-4">
         {shows.map(show => (
-          <li key={show.id}>
-            <button onClick={() => onSelectShow(show.id)}>
-              {show.movieTitle} - {new Date(show.startTime).toLocaleString()}
+          <div
+            key={show.id}
+            className="flex items-center justify-between bg-[#334155] p-4 rounded-md hover:bg-[#475569] transition"
+          >
+            <div>
+              <h3 className="text-lg font-semibold">{show.movieTitle}</h3>
+              <p className="text-sm text-gray-300">
+                {new Date(show.startTime).toLocaleString()}
+              </p>
+            </div>
+            <button
+              onClick={() => onSelectShow(show.id)}
+              className="bg-yellow-400 hover:bg-yellow-300 text-black px-4 py-1 rounded font-semibold"
+            >
+              Reservar
             </button>
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

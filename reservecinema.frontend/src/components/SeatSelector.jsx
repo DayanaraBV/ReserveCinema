@@ -11,7 +11,7 @@ const SeatSelector = ({ showId }) => {
 
   const navigate = useNavigate();
   
-    useEffect(() => {
+  useEffect(() => {
     const fetchSeats = async () => {
       try {
         const data = await getAvailableSeats(showId);
@@ -21,7 +21,7 @@ const SeatSelector = ({ showId }) => {
       }
     };
 
-     if (showId) {
+    if (showId) {
       fetchSeats();
       setSelectedSeats([]);
       setCustomerName('');
@@ -37,7 +37,7 @@ const SeatSelector = ({ showId }) => {
     );
   };
 
-    const handleReserve = async () => {
+  const handleReserve = async () => {
     if (!customerName || selectedSeats.length === 0) {
       setMessage('⚠️ Ingresa tu nombre y selecciona al menos una butaca.');
       return;
@@ -59,8 +59,8 @@ const SeatSelector = ({ showId }) => {
   };
 
   return (
-    <div className="mt-8 p-6 border rounded-lg shadow-md bg-white max-w-xl mx-auto">
-      <h3 className="text-xl font-semibold mb-4">Selecciona tus butacas</h3>
+    <div className="mt-8 p-6 border rounded-lg shadow-md bg-[#1e293b] max-w-xl mx-auto">
+      <h3 className="text-xl font-semibold mb-4 text-yellow-200">Selecciona tus butacas</h3>
 
       <div className="grid grid-cols-5 gap-2 mb-6">
         {seats.map((seat) => {
@@ -75,8 +75,8 @@ const SeatSelector = ({ showId }) => {
                 ${!seat.isAvailable
                   ? 'bg-gray-400 cursor-not-allowed'
                   : isSelected
-                  ? 'bg-blue-600 hover:bg-blue-700'
-                  : 'bg-green-500 hover:bg-green-600'}
+                  ? 'bg-yellow-400 hover:bg-yellow-300 text-black'
+                  : 'bg-green-500 hover:bg-green-400'}
               `}
             >
               {seat.row}-{seat.column}
@@ -88,19 +88,23 @@ const SeatSelector = ({ showId }) => {
       <input
         type="text"
         placeholder="Tu nombre"
-        className="w-full p-2 border border-gray-300 rounded mb-4"
+        className="w-full p-2 border border-gray-300 rounded mb-4 text-black"
         value={customerName}
-        onChange={(e) => setCustomerName(e.target.value)}/>
+        onChange={(e) => setCustomerName(e.target.value)}
+      />
 
       <button
         onClick={handleReserve}
-        className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
-        Confirmar reserva 🎟️ </button>
+        className="w-full bg-yellow-400 text-black py-2 rounded hover:bg-yellow-300 transition font-semibold">
+        Confirmar reserva 🎟️
+      </button>
 
       {message && (
-        <div className="mt-4 text-center text-sm text-gray-800 font-medium">{message}</div>)}
+        <div className="mt-4 text-center text-sm text-white font-medium">{message}</div>
+      )}
     </div>
   );
 };
+
 
 export default SeatSelector;
