@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { getAvailableSeats } from '../services/api';
+import { useNavigate } from 'react-router-dom';
 
 const SeatSelector = ({ showId }) => {
   const [seats, setSeats] = useState([]);
+  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [customerName, setCustomerName] = useState('');
+  const [message, setMessage] = useState(null);
 
-  useEffect(() => {
+  const navigate = useNavigate();
+  
+    useEffect(() => {
     const fetchSeats = async () => {
       try {
         const data = await getAvailableSeats(showId);
@@ -14,30 +20,84 @@ const SeatSelector = ({ showId }) => {
       }
     };
 
-    if (showId) fetchSeats();
+     if (showId) {
+      fetchSeats();
+      setSelectedSeats([]);
+      setCustomerName('');
+      setMessage(null);
+    }
   }, [showId]);
 
+  const toggleSeat = (seatId) => {
+    setSelectedSeats((prev) =>
+      prev.includes(seatId)
+        ? prev.filter((id) => id !== seatId)
+        : [...prev, seatId]
+    );
+  };
+
+    const handleReserve = async () => {
+    if (!customerName || selectedSeats.length === 0) {
+      setMessage('⚠️ Ingresa tu nombre y selecciona al menos una butaca.');
+      return;
+    }
+
+    try {
+      const result = await createReservation({
+        showId,
+        customerName,
+        seatIds: selectedSeats,
+      });
+
+      navigate(`/reservation/${result.id}`);
+      setSelectedSeats([]);
+      setCustomerName('');
+    } catch (error) {
+      setMessage(`❌ Error: ${error.response?.data?.error || error.message}`);
+    }
+  };
+
   return (
-    <div>
-      <h3>Butacas disponibles para la función #{showId}</h3>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 50px)', gap: '10px' }}>
-        {seats.map(seat => (
-          <button
-            key={seat.id}
-            disabled={!seat.isAvailable}
-            style={{
-              backgroundColor: seat.isAvailable ? '#4caf50' : '#ccc',
-              color: 'white',
-              border: 'none',
-              padding: '10px',
-              borderRadius: '4px',
-              cursor: seat.isAvailable ? 'pointer' : 'not-allowed'
-            }}
-          >
-            {seat.row}-{seat.column}
-          </button>
-        ))}
+    <div className="mt-8 p-6 border rounded-lg shadow-md bg-white max-w-xl mx-auto">
+      <h3 className="text-xl font-semibold mb-4">Selecciona tus butacas</h3>
+
+      <div className="grid grid-cols-5 gap-2 mb-6">
+        {seats.map((seat) => {
+          const isSelected = selectedSeats.includes(seat.id);
+          return (
+            <button
+              key={seat.id}
+              disabled={!seat.isAvailable}
+              onClick={() => toggleSeat(seat.id)}
+              className={`
+                text-white font-bold py-2 px-0 rounded transition
+                ${!seat.isAvailable
+                  ? 'bg-gray-400 cursor-not-allowed'
+                  : isSelected
+                  ? 'bg-blue-600 hover:bg-blue-700'
+                  : 'bg-green-500 hover:bg-green-600'}
+              `}
+            >
+              {seat.row}-{seat.column}
+            </button>
+          );
+        })}
       </div>
+
+      <input
+        type="text"
+        placeholder="Tu nombre"
+        className="w-full p-2 border border-gray-300 rounded mb-4"
+        value={customerName}
+        onChange={(e) => setCustomerName(e.target.value)}/>
+
+      <button
+        onClick={handleReserve}
+        className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
+        Confirmar reserva 🎟️ </button>
+
+      {message && (
+        <div className="mt-4 text-center text-sm text-gray-800 font-medium">{message}</div>)}
     </div>
   );
 };

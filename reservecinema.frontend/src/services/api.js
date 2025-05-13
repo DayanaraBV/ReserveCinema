@@ -11,3 +11,8 @@ export const getAvailableSeats = async (showId) => {
   const response = await axios.get(`${API_BASE_URL}/reservation/seats/${showId}`);
   return response.data;
 };
+
+export const createReservation = async (data) => {
+  const response = await axios.post(`${API_BASE_URL}/reservation`, data);
+  return response.data;
+};
