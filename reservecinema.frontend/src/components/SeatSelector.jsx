@@ -8,7 +8,6 @@ const SeatSelector = ({ showId }) => {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [customerName, setCustomerName] = useState('');
   const [message, setMessage] = useState(null);
-
   const navigate = useNavigate();
   
   useEffect(() => {
@@ -58,26 +57,25 @@ const SeatSelector = ({ showId }) => {
     }
   };
 
-  return (
-    <div className="mt-8 p-6 border rounded-lg shadow-md bg-[#1e293b] max-w-xl mx-auto">
-      <h3 className="text-xl font-semibold mb-4 text-yellow-200">Selecciona tus butacas</h3>
+   return (
+    <div className="bg-[#1e293b] p-6 rounded-lg shadow-md text-white mt-8">
+      <h3 className="text-xl font-bold text-yellow-300 mb-4">Selecciona tus butacas</h3>
 
-      <div className="grid grid-cols-5 gap-2 mb-6">
+      <div className="grid grid-cols-5 gap-3 justify-center mb-6">
         {seats.map((seat) => {
           const isSelected = selectedSeats.includes(seat.id);
+          const seatColor = !seat.isAvailable
+            ? 'bg-gray-500 cursor-not-allowed'
+            : isSelected
+            ? 'bg-yellow-400 hover:bg-yellow-300 text-black'
+            : 'bg-green-500 hover:bg-green-400';
+
           return (
             <button
               key={seat.id}
               disabled={!seat.isAvailable}
               onClick={() => toggleSeat(seat.id)}
-              className={`
-                text-white font-bold py-2 px-0 rounded transition
-                ${!seat.isAvailable
-                  ? 'bg-gray-400 cursor-not-allowed'
-                  : isSelected
-                  ? 'bg-yellow-400 hover:bg-yellow-300 text-black'
-                  : 'bg-green-500 hover:bg-green-400'}
-              `}
+              className={`w-12 h-12 rounded text-sm font-bold transition ${seatColor}`}
             >
               {seat.row}-{seat.column}
             </button>
@@ -88,19 +86,33 @@ const SeatSelector = ({ showId }) => {
       <input
         type="text"
         placeholder="Tu nombre"
-        className="w-full p-2 border border-gray-300 rounded mb-4 text-black"
+        className="w-full p-2 text-black rounded mb-4"
         value={customerName}
         onChange={(e) => setCustomerName(e.target.value)}
       />
 
-      <button
-        onClick={handleReserve}
-        className="w-full bg-yellow-400 text-black py-2 rounded hover:bg-yellow-300 transition font-semibold">
-        Confirmar reserva 🎟️
-      </button>
+      <div className="flex justify-between">
+        <button
+          onClick={() => {
+            setSelectedSeats([]);
+            setCustomerName('');
+            setMessage(null);
+          }}
+          className="bg-gray-600 hover:bg-gray-500 text-white px-4 py-2 rounded"
+        >
+          Cancelar
+        </button>
+
+        <button
+          onClick={handleReserve}
+          className="bg-yellow-400 hover:bg-yellow-300 text-black px-6 py-2 rounded font-semibold"
+        >
+          Confirmar
+        </button>
+      </div>
 
       {message && (
-        <div className="mt-4 text-center text-sm text-white font-medium">{message}</div>
+        <p className="mt-4 text-center text-red-400 font-medium">{message}</p>
       )}
     </div>
   );
