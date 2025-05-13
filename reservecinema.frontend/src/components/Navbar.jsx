@@ -7,7 +7,7 @@ const Navbar = () => {
         <Link to="/" className="text-2xl font-bold tracking-wide">
           🎬 ReserveCinema
         </Link>
-        <span className="text-sm">Prueba técnica</span>
+        <span className="text-sm">dayanarabone277@gmail.com</span>
       </div>
     </nav>
   );
