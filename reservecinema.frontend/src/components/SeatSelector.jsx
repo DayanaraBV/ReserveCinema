@@ -86,11 +86,10 @@ const SeatSelector = ({ showId }) => {
       <input
         type="text"
         placeholder="Tu nombre"
-        className="w-full p-2 text-black rounded mb-4"
+        className="w-full p-2 bg-[#0f172a] border border-gray-600 text-yellow-100 rounded mb-4 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
         value={customerName}
         onChange={(e) => setCustomerName(e.target.value)}
       />
-
       <div className="flex justify-between">
         <button
           onClick={() => {
